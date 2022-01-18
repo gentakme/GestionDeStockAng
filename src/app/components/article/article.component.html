@@ -1,0 +1,179 @@
+ 
+<button
+    pButton
+    label="Add Article"
+    style="float: right"
+    pRipple
+    type="button"
+    icon="pi pi-plus"
+    styleClass="p-button-sm"  (click)="openNew()"
+    class="p-button-rounded p-button-outlined-sm"
+></button>
+
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="name">Name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="article.name" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !article.name">Name is required.</small>
+        </div>
+        <br>
+
+        <div class="p-field">
+            <label for="name">Price</label>
+            <input type="text" pInputText id="price" [(ngModel)]="article.price" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !article.price">price is required.</small>
+        </div>
+        <br>
+
+        <div class="p-field">
+            <label for="name">Quantity</label>
+            <input type="text" pInputText id="quantity" [(ngModel)]="article.quantity" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !article.quantity">quantity is required.</small>
+        </div>
+        <br>
+        <div class="p-field">
+            <label for="name">Type</label>
+            <input type="text" pInputText id="categorieType" [(ngModel)]="article.categorieType" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !article.categorieType">categorieType is required.</small>
+        </div>
+ 
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"  (click)="hideDialog()" ></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addArticle()"></button>
+    </ng-template>
+</p-dialog>
+
+<div class="content-section implementation p-fluid">
+    <h5>Article Crud</h5>
+    <p-toast></p-toast>
+
+    <div class="card">
+        <p-table
+            [value]="articles"
+            dataKey="id"
+            editMode="row"
+            responsiveLayout="scroll"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th style="width: 8rem"></th>
+                </tr>
+            </ng-template>
+            <ng-template
+                pTemplate="body"
+                let-product
+                let-editing="editing"
+                let-ri="rowIndex"
+            >
+                <tr [pEditableRow]="product">
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="product.name"
+                                />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ product.name }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="product.categorieType"
+                                    required
+                                />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ product.categorieType }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown
+                                    [options]="quantities"
+                                    [(ngModel)]="product.quantity"
+                                    [style]="{ width: '100%' }"
+                                ></p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ product.quantity }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="product.price"
+                                    required
+                                />
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ product.price | currency: 'USD' }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
+                    <td style="text-align: center">
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            icon="pi pi-pencil"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-trash"
+                            (click)="deleteArticle(product.id)"
+                            class="p-button-rounded p-button-text"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            icon="pi pi-check"
+                            (click)="updateArticle(product)"
+                            class="p-button-rounded p-button-text p-button-success p-mr-2"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            icon="pi pi-times"
+                            class="p-button-rounded p-button-text p-button-danger"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
