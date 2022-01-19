@@ -25,6 +25,16 @@
             <input type="text" pInputText id="price" [(ngModel)]="article.price" required autofocus />
             <small class="p-invalid" *ngIf="submitted && !article.price">price is required.</small>
         </div>
+        <div class="p-field">
+            <label for="name">Type</label>
+            <p-dropdown
+            [options]="categorieType"
+            [(ngModel)]="article.categorieType"
+            [style]="{ width: '100%' }"
+        ></p-dropdown>
+            <!-- <input type="text" pInputText id="categorieType" [(ngModel)]="article.categorieType" required autofocus /> -->
+            <small class="p-invalid" *ngIf="submitted && !article.categorieType">categorieType is required.</small>
+        </div>
         <br>
 
         <div class="p-field">
@@ -33,11 +43,6 @@
             <small class="p-invalid" *ngIf="submitted && !article.quantity">quantity is required.</small>
         </div>
         <br>
-        <div class="p-field">
-            <label for="name">Type</label>
-            <input type="text" pInputText id="categorieType" [(ngModel)]="article.categorieType" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !article.categorieType">categorieType is required.</small>
-        </div>
  
     </ng-template>
     

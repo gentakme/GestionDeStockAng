@@ -20,10 +20,10 @@ export class ArticleComponent implements OnInit {
     articles: Article[] = [];
     article: any;
     quantities!: SelectItem[];
+    categorieType!: SelectItem[];
     productDialog!: boolean;
     submitted!: boolean;
     ngOnInit(): void {
-        this.getList();
         this.quantities = [
             { label: '10', value: 10 },
             { label: '20', value: 20 },
@@ -32,6 +32,13 @@ export class ArticleComponent implements OnInit {
             { label: '80', value: 80 },
             { label: '100', value: 100 },
         ];
+
+        this.categorieType = [
+            { label: 'Informatique', value: 'Informatique' },
+            { label: 'Vehicules', value: 'Vehicules' },
+            { label: 'Immobilier', value: 'Immobilier' },
+        ]
+        this.getList();
     }
 
     getList() {
@@ -73,6 +80,9 @@ export class ArticleComponent implements OnInit {
             summary: 'New',
             detail: 'Article was added!',
         });
+
+        this.getList();
+
     }
    
 
