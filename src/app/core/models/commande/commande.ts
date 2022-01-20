@@ -1,5 +1,12 @@
 export interface Commande {
-    id: string;
+    id?: string;
+    articleId?: string;
+    articleName?: string;
+    dateCommande?: Date;
+
+}
+
+export interface Order{
     articleId: string;
-    dateCommande: Date;
+
 }

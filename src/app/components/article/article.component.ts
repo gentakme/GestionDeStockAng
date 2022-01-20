@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Article } from 'src/app/core/models/article/article';
 import { ArticleService } from 'src/app/core/services/article/article.service';
 import { MessageService, SelectItem } from 'primeng/api';
+import { CommandeService } from 'src/app/core/services/commande/commande.service';
+import { Commande } from 'src/app/core/models/commande/commande';
 
 @Component({
     selector: 'app-article',
@@ -11,10 +13,10 @@ import { MessageService, SelectItem } from 'primeng/api';
     styleUrls: ['./article.component.css'],
 })
 export class ArticleComponent implements OnInit {
-
     constructor(
         private articleService: ArticleService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private commandeService: CommandeService
     ) {}
 
     articles: Article[] = [];
@@ -37,7 +39,7 @@ export class ArticleComponent implements OnInit {
             { label: 'Informatique', value: 'Informatique' },
             { label: 'Vehicules', value: 'Vehicules' },
             { label: 'Immobilier', value: 'Immobilier' },
-        ]
+        ];
         this.getList();
     }
 
@@ -55,9 +57,21 @@ export class ArticleComponent implements OnInit {
             detail: 'Article was updated',
         });
     }
+    commande!: Commande;
+    async deleteArticle(id: string) {
+        var response = await this.commandeService
+            .getCommandeByArticle(id)
+            .toPromise();
 
-    deleteArticle(id: string) {
-        console.log('dd');
+        if (response) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Forbidden',
+                detail: 'Article can not be deleted!',
+            });
+            return;
+        }
+
         this.articleService.deleteArticle(id);
         this.messageService.add({
             severity: 'success',
@@ -72,9 +86,6 @@ export class ArticleComponent implements OnInit {
         this.productDialog = false;
 
         this.articleService.addArticle(this.article);
-
-        this.getList();
-
         this.messageService.add({
             severity: 'success',
             summary: 'New',
@@ -82,9 +93,7 @@ export class ArticleComponent implements OnInit {
         });
 
         this.getList();
-
     }
-   
 
     openNew() {
         this.article = {};
@@ -96,5 +105,4 @@ export class ArticleComponent implements OnInit {
         this.productDialog = false;
         this.submitted = false;
     }
-
 }

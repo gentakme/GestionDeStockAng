@@ -38,7 +38,6 @@ import {ToolbarModule} from 'primeng/toolbar';
         InputTextModule,
         RatingModule,
         ButtonModule,
-        CommonModule,
         HttpClientModule,
         DataViewModule,
         BrowserModule,

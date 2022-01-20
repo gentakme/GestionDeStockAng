@@ -52,8 +52,9 @@
     </ng-template>
 </p-dialog>
 
-<div class="content-section implementation p-fluid">
-    <h5>Article Crud</h5>
+<div  
+  class="content-section implementation p-fluid">
+    <h5>Articles</h5>
     <p-toast></p-toast>
 
     <div class="card">
@@ -61,9 +62,9 @@
             [value]="articles"
             dataKey="id"
             editMode="row"
-            responsiveLayout="scroll"
-        >
-            <ng-template pTemplate="header">
+            [scrollable]="true" scrollHeight="400px"
+           >        >
+            <ng-template pTemplate="header" >
                 <tr>
                     <th>Name</th>
                     <th>Category</th>
@@ -133,7 +134,7 @@
                                 />
                             </ng-template>
                             <ng-template pTemplate="output">
-                                {{ product.price | currency: 'USD' }}
+                                {{ product.price | currency }}
                             </ng-template>
                         </p-cellEditor>
                     </td>

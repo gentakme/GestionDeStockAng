@@ -1,16 +1,25 @@
 <nb-layout>
-
-  <nb-layout-header fixed>
-  <!-- Insert header here -->
-  </nb-layout-header>
-
+  <nb-layout-header> Gestion de stock </nb-layout-header>
   <nb-layout-column>
-    <app-article></app-article>
-    
+
+  <p-accordion>
+    <p-accordionTab header="Commande DataTable">
+      <app-commande></app-commande>
+    </p-accordionTab>
+
+    <p-accordionTab header="Article DataTable">
+      <app-article></app-article>
+    </p-accordionTab>
+
+    <p-accordionTab header="Shop">
+      <app-shop></app-shop>
+    </p-accordionTab>
+  </p-accordion>
+  
   </nb-layout-column>
+ 
 
-  <nb-layout-footer fixed>
-  <!-- Insert footer here -->
-  </nb-layout-footer>
-
+  <nb-layout-footer fixed> </nb-layout-footer>
 </nb-layout>
+
+

@@ -1,1 +1,75 @@
-<p>commande works!</p>
+<div  
+class="content-section implementation p-fluid">
+<h5>Commandes</h5>
+<p-toast></p-toast>
+
+<div class="card">
+    <p-table
+        [value]="commandes"
+        dataKey="id"
+        editMode="row"
+         [scrollable]="true" scrollHeight="400px">
+        <ng-template pTemplate="header">
+            <tr>
+                 <th>Article Name</th>
+                <th>Date</th>
+                <th style="width: 8rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template
+            pTemplate="body"
+            let-product
+            let-editing="editing"
+            let-ri="rowIndex"
+        >
+            <tr [pEditableRow]="product">
+               
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input
+                                pInputText
+                                type="text"
+                                [(ngModel)]="product.articleName"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.articleName }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+              
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input disabled
+                                pInputText
+                                type="text"
+                                [(ngModel)]="product.dateCommande"
+                                required
+                            />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ product.dateCommande | date }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+
+                <td style="text-align: center">
+                   
+                    <button
+                        *ngIf="!editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-trash"
+                        (click)="deleteArticle(product.id)"
+                        class="p-button-rounded p-button-text"
+                    ></button>                 
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+</div>
