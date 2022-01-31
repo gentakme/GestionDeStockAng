@@ -1,24 +1,23 @@
- 
-<button
-    pButton
-    label="Add Article"
-    style="float: right"
-    pRipple
-    type="button"
-    icon="pi pi-plus"
-    styleClass="p-button-sm"  (click)="openNew()"
-    class="p-button-rounded p-button-outlined-sm"
-></button>
+<span class="p-buttonset" style="float:right">
+    <button pButton pRipple label="New Article" class="p-button-success p-button-outlined " icon="pi pi-plus"
+        (click)="generateNewRow()"></button>
+    <button pButton [disabled]="isDisabled  " pRipple label="Save" class="p-button-primary p-button-outlined"
+        icon="pi pi-check" (click)="onSave()"></button>
+    <button pButton pRipple label="Delete" class="p-button-danger p-button-outlined"
+        icon="pi pi-trash" (click)="onDelete()"></button>
 
+</span>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="content">
         <div class="p-field">
             <label for="name">Name</label>
             <input type="text" pInputText id="name" [(ngModel)]="article.name" required autofocus />
             <small class="p-invalid" *ngIf="submitted && !article.name">Name is required.</small>
         </div>
-        <br>
+        <br />
 
         <div class="p-field">
             <label for="name">Price</label>
@@ -27,67 +26,103 @@
         </div>
         <div class="p-field">
             <label for="name">Type</label>
-            <p-dropdown
-            [options]="categorieType"
-            [(ngModel)]="article.categorieType"
-            [style]="{ width: '100%' }"
-        ></p-dropdown>
+            <p-dropdown [options]="categorieType" [(ngModel)]="article.categorieType" [style]="{ width: '100%' }">
+            </p-dropdown>
             <!-- <input type="text" pInputText id="categorieType" [(ngModel)]="article.categorieType" required autofocus /> -->
             <small class="p-invalid" *ngIf="submitted && !article.categorieType">categorieType is required.</small>
         </div>
-        <br>
+        <br />
 
         <div class="p-field">
             <label for="name">Quantity</label>
             <input type="text" pInputText id="quantity" [(ngModel)]="article.quantity" required autofocus />
             <small class="p-invalid" *ngIf="submitted && !article.quantity">quantity is required.</small>
         </div>
-        <br>
- 
+        <br />
     </ng-template>
-    
+
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"  (click)="hideDialog()" ></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addArticle()"></button>
     </ng-template>
 </p-dialog>
 
-<div  
-  class="content-section implementation p-fluid">
+<div class="content-section implementation p-fluid">
     <h5>Articles</h5>
     <p-toast></p-toast>
-
+ 
     <div class="card">
-        <p-table
-            [value]="articles"
-            dataKey="id"
-            editMode="row"
-            [scrollable]="true" scrollHeight="400px"
-           >        >
-            <ng-template pTemplate="header" >
+        <p-table #dt [value]="articles" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['name','category','quantity','status']" responsiveLayout="scroll"
+            [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true" dataKey="id" editMode="row">
+            <ng-template pTemplate="header">
                 <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th style="width: 8rem"></th>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="categorieType">Category <p-sortIcon field="categorieType"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon>
+                    </th>
+                    <th>Action</th>
                 </tr>
+                <ng-container [formGroup]="formTest">
+                    <tr formArrayName="articles" *ngFor=" let article of userFormGroups.controls; let i = index">
+                        <ng-container [formGroupName]="i">
+                            <th>
+
+                            </th>
+                            <th>
+                                <input pInputText placeholder="Name*" type="text" formControlName="name"
+                                    [ngClass]="{'ng-invalid ng-dirty':submitted && ( !article?.valid || article.touched)}" />
+
+                            </th>
+                            <th>
+                                <p-dropdown [options]="categorieType" formControlName="categorieType"
+                                    [style]="{ width: '100%' }"></p-dropdown>
+                            </th>
+                            <th>
+                                <p-dropdown type="number" formControlName="quantity" [options]="quantities"
+                                    [style]="{ width: '100%' }"></p-dropdown>
+                            </th>
+                            <th>
+                                <input pInputText placeholder="Quatity" type="number" formControlName="price"
+                                    [ngClass]="{'ng-invalid ng-dirty':  submitted && !this.userFormGroups.get('price')?.valid    }" />
+
+                            </th>
+                            <th style="width: 8rem">
+
+                                <button pButton pRipple type="button" (click)="onUndo(i)" icon="pi pi-undo"
+                                    class="p-button-rounded p-button-text" style="color: red;">
+                                </button>
+                            </th>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+
             </ng-template>
-            <ng-template
-                pTemplate="body"
-                let-product
-                let-editing="editing"
-                let-ri="rowIndex"
-            >
+
+            <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
                 <tr [pEditableRow]="product">
+                    <td>
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="output">
+                                <p-tableCheckbox [disabled]="true" [value]="product"></p-tableCheckbox>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
                     <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <input
-                                    pInputText
-                                    type="text"
-                                    [(ngModel)]="product.name"
-                                />
+                                <input pInputText    type="text" [(ngModel)]="product.name" #name="ngModel"  id="name"
+                                  [ngClass]="{'ng-dirty': (name.invalid && submitted) || (name.dirty && name.invalid )}"   required/>
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ product.name }}
@@ -97,12 +132,9 @@
                     <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <input
-                                    pInputText
-                                    type="text"
-                                    [(ngModel)]="product.categorieType"
-                                    required
-                                />
+                                <p-dropdown type="number" [options]="categorieType" [style]="{ width: '100%' }"
+                                    [(ngModel)]="product.categorieType"></p-dropdown>
+
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ product.categorieType }}
@@ -112,11 +144,8 @@
                     <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <p-dropdown
-                                    [options]="quantities"
-                                    [(ngModel)]="product.quantity"
-                                    [style]="{ width: '100%' }"
-                                ></p-dropdown>
+                                <p-dropdown [options]="quantities" [(ngModel)]="product.quantity"
+                                    [style]="{ width: '100%' }"></p-dropdown>
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ product.quantity }}
@@ -126,12 +155,7 @@
                     <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <input
-                                    pInputText
-                                    type="text"
-                                    [(ngModel)]="product.price"
-                                    required
-                                />
+                                <input pInputText type="number" [(ngModel)]="product.price" min="1" required />
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ product.price | currency }}
@@ -139,44 +163,17 @@
                         </p-cellEditor>
                     </td>
 
-                    <td style="text-align: center">
-                        <button
-                            *ngIf="!editing"
-                            pButton
-                            pRipple
-                            type="button"
-                            pInitEditableRow
-                            icon="pi pi-pencil"
-                            class="p-button-rounded p-button-text"
-                        ></button>
-                        <button
-                            *ngIf="!editing"
-                            pButton
-                            pRipple
-                            type="button"
-                            icon="pi pi-trash"
-                            (click)="deleteArticle(product.id)"
-                            class="p-button-rounded p-button-text"
-                        ></button>
-                        <button
-                            *ngIf="editing"
-                            pButton
-                            pRipple
-                            type="button"
-                            pSaveEditableRow
-                            icon="pi pi-check"
+                    <td>
+                        <button *ngIf="!editing" pButton pRipple      (click)="editArticle(product)"type="button" pInitEditableRow icon="pi pi-pencil"
+                            class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash"
+                            (click)="confirm(product.id)" class="p-button-rounded p-button-text"></button>
+
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
                             (click)="updateArticle(product)"
-                            class="p-button-rounded p-button-text p-button-success p-mr-2"
-                        ></button>
-                        <button
-                            *ngIf="editing"
-                            pButton
-                            pRipple
-                            type="button"
-                            pCancelEditableRow
-                            icon="pi pi-times"
-                            class="p-button-rounded p-button-text p-button-danger"
-                        ></button>
+                            class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                        <button *ngIf="editing"   pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
                     </td>
                 </tr>
             </ng-template>

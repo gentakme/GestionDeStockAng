@@ -1,0 +1,26 @@
+nb-sidebar p {
+    font-size: 1.5em;
+    padding-bottom: 1em;
+   
+}
+
+nb-sidebar p:hover{
+    
+     color: cornflowerblue;
+    cursor: pointer;
+
+ }
+
+nb-sidebar .is-active p
+
+{
+    color:  rgb(18, 130, 204);
+}   
+.navbar{
+    text-align: center;
+    
+  }
+ .navbar div{
+     background-color: red;
+     width: 100%;
+ }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { ClientCommandes } from 'src/app/core/models/commande/ClientCommandes';
 import { Commande } from 'src/app/core/models/commande/commande';
 import { CommandeService } from 'src/app/core/services/commande/commande.service';
 
@@ -20,7 +21,7 @@ export class CommandeComponent implements OnInit {
       this.getList();
     }
 
-    commandes: Commande[] = [];
+    commandes: ClientCommandes[] = [];
     commande!: Commande;
 
     getList() {
@@ -32,11 +33,12 @@ export class CommandeComponent implements OnInit {
 
     deleteArticle(id: string) {
         this.commandeService.delete(id);
+        this.getList();
+
         this.messageService.add({
             severity: 'success',
             summary: 'Deleted',
             detail: 'Order was deleted!',
         });
-        this.getList();
     }
 }

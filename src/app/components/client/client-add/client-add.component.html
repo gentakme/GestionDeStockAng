@@ -1,0 +1,175 @@
+<nb-card>
+    <nb-card-body>
+        <button routerLink="/client" style="float: right" pButton pRipple type="button" icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-text"></button>
+        <br />
+        <br />
+        <nb-stepper #stepper [linear]="linearMode">
+            <nb-step [stepControl]="nameForm" label="Client info">
+                <div #nameForm="ngForm" [formGroup]="clientForm" class="step-container">
+                    <h5>Client info</h5>
+                    <p-toast></p-toast>
+
+                    <span *ngIf="submitted && !this.clientForm.controls.valid" class="text-danger m-4">*Invalid Submit!
+                    </span>
+                    <br />
+
+                    <div class="grid p-fluid">
+                        <br />
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input type="text" formControlName="firstName"
+                                [pTooltip]=" this.clientForm.get('firstName')?.value?.length <=  2   ? 'Must be at least 3 characters' : '' "
+                                tooltipPosition="left" tooltipEvent="focus"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && clientForm.get('firstName')?.invalid }"
+                                pInputText placeholder="First name*" />
+
+                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input type="text"
+                                [ngClass]="{'ng-invalid ng-dirty': submitted && clientForm.get('lastName')?.invalid }"
+                                formControlName="lastName" pInputText placeholder="Last name" />
+
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">@</span>
+                            <input [ngClass]="{'ng-invalid ng-dirty':  submitted && clientForm.get('email')?.invalid }"
+                                type="email" formControlName="email" pInputText placeholder="example@example.com*" />
+
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-phone"></i></span>
+                            <input type="tel"
+                                [pTooltip]=" this.clientForm.get('phoneNumber')?.value?.length < 8 ||  this.clientForm.get('phoneNumber')?.value?.length > 8  ? 'Phone number must be 8 digits' : ''"
+                                tooltipPosition="left" tooltipEvent="focus"
+                                [ngClass]="{'ng-untouched  ng-dirty': submitted && clientForm.get('phoneNumber')?.invalid }"
+                                formControlName="phoneNumber" pInputText placeholder="Phone number" />
+                        </div>
+                    </div>
+                    <br />
+
+                    <button nbButton disabled nbStepperNext>prev</button>
+
+                    <button nbButton (click)="validate()" nbStepperNext>
+                        next
+                    </button>
+                </div>
+            </nb-step>
+
+            <nb-step [stepControl]="movieForm" label="Assign Articles">
+                <form #movieForm="ngForm" class="step-container">
+                    <div class="card">
+                        <p-toast></p-toast>
+
+                        <p-table #dt [value]="articles" [rows]="5" [paginator]="true" [globalFilterFields]="[
+                                'name',
+                                'country.name',
+                                'representative.name',
+                                'status'
+                            ]" responsiveLayout="scroll" [(selection)]="selectedProducts" [rowHover]="true"
+                            dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [showCurrentPageReport]="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3rem">
+                                        Select
+                                    </th>
+                                    <th>Insert Quantity</th>
+                                    <th pSortableColumn="name">
+                                        Name
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="categorieType">
+                                        Category
+                                        <p-sortIcon field="categorieType"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="quantity">
+                                        Quantity
+                                        <p-sortIcon field="quantity"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="price">
+                                        Price
+                                        <p-sortIcon field="price"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td>
+                                        <p-tableCheckbox [disabled]=" product.quantity <= 0" [value]="product">
+                                        </p-tableCheckbox>
+                                    </td>
+                                    <td>
+                                        <input class="ng-invalid ng-dirty" [disabled]=" product.quantity <= 0"
+                                            [ngClass]="{'ng-invalid ng-dirty': isOver}" pInputText type="number"
+                                            [ngModelOptions]="{
+                                                standalone: true
+                                            }" [(ngModel)]="product.count" placeholder="Insert Quantity" />
+
+                                    </td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.categorieType }}</td>
+
+                                    <div *ngIf="product.quantity <= 0;else other_content">
+                                        <td><br> <button pButton label="Out of stock" pRipple
+                                                class="p-button-danger p-button-outlined">
+
+                                            </button>
+                                        </td>
+                                    </div>
+                                    <ng-template #other_content>
+                                        <td> {{ product.quantity }}</td>
+                                    </ng-template>
+
+                                    <td>
+                                        {{ product.price | currency: 'USD' }}
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                <div class="flex align-items-center justify-content-between"></div>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <button nbButton nbStepperPrevious>prev</button>
+
+                    <button nbButton nbStepperNext (click)="onSubmit()" routerLink="/client">
+                        Submit
+                    </button>
+                </form>
+                <p-toast></p-toast>
+            </nb-step>
+            <!-- 
+            <nb-step [stepControl]="somethingForm" label="Review">
+                <form #somethingForm="ngForm" class="step-container">
+                    <div class="input-group">
+                        <input type="text" placeholder="Enter something" class="form-control" name="something" required
+                            nbInput ngModel #somethingInput="ngModel" [status]="
+                                somethingInput.invalid ? 'danger' : 'basic'
+                            " />
+                    </div>
+                    <button nbButton nbStepperPrevious>prev</button>
+
+                    <button nbButton nbStepperNext>next</button>
+                </form>
+            </nb-step>
+
+            <nb-step [hidden]="true">
+                <div class="step-container">
+                    <h3>Wizard completed!</h3>
+                    <button nbButton (click)="stepper.reset()">
+                        Try again
+                    </button>
+                </div>
+            </nb-step> -->
+            <p-toast></p-toast>
+        </nb-stepper>
+    </nb-card-body>
+</nb-card>

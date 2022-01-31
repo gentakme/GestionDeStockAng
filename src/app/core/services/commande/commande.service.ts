@@ -37,4 +37,9 @@ export class CommandeService {
        return this.http.get(`${environment.baseUrl}commande/commandeByArticle/${id}`);
       
     }
+    getCommandeByClient(id : any) : Observable<any>
+    {
+       return this.http.get(`${environment.baseUrl}commande/${id}/commandeByClient/`);
+      
+    }
 }

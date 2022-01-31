@@ -19,6 +19,7 @@ export class ShopComponent implements OnInit {
     ngOnInit(): void {
         this.getArticles();
      }
+     
     articles: Article[] = [];
     commande!: Order;
     getArticles() {

@@ -1,4 +1,9 @@
+<nb-card>
+
+    <nb-card-body>
+
 <ng-container>
+    
     <div class="card">
         <p-table [value]="articles" dataKey="id" editMode="row">
             <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
@@ -15,3 +20,5 @@
         </p-table>
     </div>
 </ng-container>
+    </nb-card-body>
+</nb-card>

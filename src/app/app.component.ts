@@ -10,6 +10,7 @@ import { NbSidebarService } from '@nebular/theme';
 export class AppComponent {
   title = 'GestionDeStock';
   constructor(private sidebarService: NbSidebarService) {
+    
   }
 
   toggle() {

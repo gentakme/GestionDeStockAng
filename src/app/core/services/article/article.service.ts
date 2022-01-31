@@ -8,8 +8,13 @@ import { Article } from '../../models/article/article';
     providedIn: 'root',
 })
 export class ArticleService {
-  constructor(private http: HttpClient) {}
-  
+    
+    constructor(private http: HttpClient) {}
+    
+    insertArticlesList(entities: any) {
+     this.http.post(`${environment.baseUrl}article/articles`, entities).subscribe(res=>{})
+  }
+
   addArticle(article: Article) {
     this.http
           .post(`${environment.baseUrl}article/`, article)
@@ -27,6 +32,6 @@ export class ArticleService {
           .subscribe((res) => {});
   }
   getArticles(): Observable<any> {
-        return this.http.get<any>(environment.baseUrl + 'article');
+        return this.http.get<any>(environment.baseUrl + 'article/articlesList');
     }
 }

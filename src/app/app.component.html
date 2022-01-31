@@ -1,25 +1,80 @@
 <nb-layout>
-  <nb-layout-header> Gestion de stock </nb-layout-header>
-  <nb-layout-column>
+   
+   <nb-sidebar>
+    
+    <ul>
+      
+      <div routerLink="/article" routerLinkActive="is-active">
+        <p>
+       Articles
+        </p>
 
-  <p-accordion>
-    <p-accordionTab header="Commande DataTable">
-      <app-commande></app-commande>
-    </p-accordionTab>
+      </div>
+      <div routerLink="/commande" routerLinkActive="is-active">
+        <p>
+         Commandes
+        </p>
 
-    <p-accordionTab header="Article DataTable">
-      <app-article></app-article>
-    </p-accordionTab>
+      </div>
+      <div routerLink="/client" routerLinkActive="is-active">
+        <p>
+          Clients
+        </p>
 
-    <p-accordionTab header="Shop">
-      <app-shop></app-shop>
-    </p-accordionTab>
-  </p-accordion>
-  
+      </div>
+      <div routerLink="/shop" routerLinkActive="is-active">
+        <p>
+          Shop
+        </p>
+
+      </div>
+     
+    </ul>
+
+
+  </nb-sidebar>
+
+  <nb-layout-column class="colored-column-basic">
+     <div class="navbar">
+      <h2>Gestion de stock</h2>
+     </div>
+     
+<router-outlet></router-outlet>
+    <!-- <nb-layout>
+      <nb-layout-column>
+
+        <p-accordion>
+          <p-accordionTab header="Commande DataTable">
+            <app-commande></app-commande>
+          </p-accordionTab>
+
+          <p-accordionTab header="Article DataTable">
+            <app-article></app-article>
+          </p-accordionTab>
+
+          <p-accordionTab header="Shop">
+            <app-shop></app-shop>
+          </p-accordionTab>
+        </p-accordion>
+
+      </nb-layout-column>
+
+
+      <nb-layout-footer fixed> </nb-layout-footer>
+    </nb-layout> -->
+
+    <!-- <nb-card>
+            <nb-card-body>
+                <nb-tabset>
+                    <nb-tab tabTitle="Commande">
+                        <app-commande></app-commande>
+                    </nb-tab>
+                    <nb-tab tabTitle="Articles">
+                        <app-article></app-article>
+                    </nb-tab>
+                    <nb-tab tabTitle="Shop"> </nb-tab>
+                </nb-tabset>
+            </nb-card-body>
+        </nb-card> -->
   </nb-layout-column>
- 
-
-  <nb-layout-footer fixed> </nb-layout-footer>
 </nb-layout>
-
-
