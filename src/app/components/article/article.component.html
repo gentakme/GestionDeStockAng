@@ -79,7 +79,7 @@
 
                             </th>
                             <th>
-                                <input pInputText placeholder="Name*" type="text" formControlName="name"
+                                <input pInputText placeholder="Name*" type="text" formControlName="name" 
                                     [ngClass]="{'ng-invalid ng-dirty':submitted && ( !article?.valid || article.touched)}" />
 
                             </th>
@@ -121,8 +121,8 @@
                     <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <input pInputText    type="text" [(ngModel)]="product.name" #name="ngModel"  id="name"
-                                  [ngClass]="{'ng-dirty': (name.invalid && submitted) || (name.dirty && name.invalid )}"   required/>
+                                <input pInputText    type="text" [(ngModel)]="product.name" #name="ngModel"  id="name" 
+                                  [ngClass]="{'ng-dirty': (name.invalid && submitted) || (name.dirty && name.invalid )}"  required/>
                             </ng-template>
                             <ng-template pTemplate="output">
                                 {{ product.name }}

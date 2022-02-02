@@ -54,6 +54,7 @@ export class ArticleComponent implements OnInit {
         articles: this.fb.array([]),
     });
     ngOnInit(): void {
+        this.isRequired = false;
         this.submitted = false;
         console.log('art', this.articleForm.value);
         this.isDisabled = true;
@@ -101,7 +102,7 @@ export class ArticleComponent implements OnInit {
 
         this.articleService.insertArticlesList(entities);
         this.getList();
-
+           
         this.userFormGroups.clear();
         this.getList();
         this.messageService.add({
@@ -158,14 +159,19 @@ export class ArticleComponent implements OnInit {
         return false;
 
     }
+     isRequired!: boolean;
     updateArticle(article: any) {
       
-        if (article?.name || article?.price <= 0  ) { 
-            
+        if (!article?.name || article?.price <= 0  ) { 
+            this.isRequired = true;
             console.log("article name ",  article?.price <= 0 )
             console.log("article name ",  article?.name  )
-            return;
-
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Invalid data',
+                detail: 'The row was not update!',
+            });
+ 
          }
          else
          {
